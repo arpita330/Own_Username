@@ -6,9 +6,13 @@
 <title>Contact Now</title>
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
-  height:100vh;
+  min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -18,17 +22,18 @@ body{
 }
 
 .card{
-  background:rgba(0,0,0,0.85);
-  padding:30px;
+  background:rgba(0,0,0,0.88);
+  padding:28px;
   border-radius:22px;
   box-shadow:0 0 30px #22c55e,0 0 60px #22c55e;
-  width:320px;
+  width:90%;
+  max-width:340px;
   text-align:center;
 }
 
 .btn{
   display:block;
-  margin:14px auto;
+  margin:14px 0;
   padding:16px;
   width:100%;
   border-radius:18px;
@@ -47,9 +52,9 @@ body{
 }
 
 @keyframes pulse{
-  0%{box-shadow:0 0 10px #22c55e}
+  0%{box-shadow:0 0 12px #22c55e}
   50%{box-shadow:0 0 40px #22c55e}
-  100%{box-shadow:0 0 10px #22c55e}
+  100%{box-shadow:0 0 12px #22c55e}
 }
 
 .counter{
@@ -78,188 +83,6 @@ views++;
 localStorage.setItem("page_views", views);
 document.getElementById("views").innerText = "👀 Views: " + views;
 </script>
-
-</body>
-</html></head>
-
-<body>
-  <div class="card">
-    <button class="btn" id="btn1">Button 1</button>
-    <button class="btn" id="btn2">Button 2</button>
-    <button class="btn" id="btn3">Button 3</button>
-    <div id="counter" class="counter">👀 Views: 0</div>
-  </div>
-
-<script>
-const BIN_ID = "6975afdd43b1c97be948282a"; // Replace with your JSONBin ID
-const API_KEY = "$2a$10$FzuPqc1Mzi7uqTGrRFAbvu.Mv8fjn8iQ2eipl9nMlevsjRwppaqWO"; // Replace with your JSONBin Secret
-const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
-
-/* ===============================
-   Update Global Counter
-================================= */
-async function updateCounter() {
-  try {
-    // 1️⃣ Fetch current value
-    const res = await fetch(API_URL, {
-      headers: {
-        'X-Master-Key': API_KEY
-      }
-    });
-    const data = await res.json();
-    let views = data.record.views || 0;
-
-    // 2️⃣ Increment
-    views++;
-
-    // 3️⃣ Save new value
-    await fetch(API_URL, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Master-Key": API_KEY
-      },
-      body: JSON.stringify({views})
-    });
-
-    // 4️⃣ Update UI
-    document.getElementById("counter").innerText = `👀 Views: ${views}`;
-  } catch (err) {
-    console.error(err);
-    document.getElementById("counter").innerText = "👀 Views: Error";
-  }
-}
-
-updateCounter();
-
-/* ===============================
-   Emoji Rotation
-================================= */
-const emojis = ["😎","🔥","🚀","💎","✨","⚡"];
-let emojiIndex = 0;
-setInterval(() => {
-  emojiIndex = (emojiIndex + 1) % emojis.length;
-  updateButtonText();
-}, 1200);
-
-/* ===============================
-   Country-based Text
-================================= */
-const countryTexts = {
-  "IN": "Cᴏɴᴛᴀᴄᴛ",
-  "US": "Oᴘᴇɴ",
-  "GB": "Mᴇssᴀɢᴇ",
-  "default": "CLICK"
-};
-let country = "default";
-fetch("https://ipapi.co/country/")
-  .then(r => r.text())
-  .then(c => country = c.trim())
-  .catch(() => country = "default");
-
-/* ===============================
-   Update Buttons Text
-================================= */
-function updateButtonText() {
-  const text = countryTexts[country] || countryTexts["default"];
-  const emoji = emojis[emojiIndex];
-
-  document.getElementById("btn1").innerText = emoji + " " + text;
-  document.getElementById("btn2").innerText = emoji + " " + text;
-  document.getElementById("btn3").innerText = emoji + " " + text;
-}
-
-/* ===============================
-   Telegram Buttons (manual click)
-================================= */
-document.getElementById("btn1").addEventListener("click", () => {
-  window.location.href = "tg://openmessage?user_id=8369423600";
-});
-document.getElementById("btn2").addEventListener("click", () => {
-  window.location.href = "https://t.me/FreeLyWalletBot?start=8369423600";
-});
-document.getElementById("btn3").addEventListener("click", () => {
-  window.location.href = "https://t.me/+HC-5ecapCXhiY2E1";
-});
-
-updateButtonText();
-</script>
-
-</body>
-</html></head>
-
-<body>
-
-<div class="card">
-  <a id="btn1" class="btn" href="tg://openmessage?user_id=8369423600">Button 1</a>
-  <a id="btn2" class="btn" href="https://t.me/FreeLyWalletBot?start=8369423600">Button 2</a>
-  <a id="btn3" class="btn" href="https://t.me/+HC-5ecapCXhiY2E1">Button 3</a>
-  <div id="counter" class="counter">👀 Views: 0</div>
-</div>
-
-<script>
-/* ===============================
-   🎭 Emoji Rotation
-================================= */
-const emojis = ["😎","🔥","🚀","💎","✨","⚡"];
-let emojiIndex = 0;
-setInterval(() => {
-  emojiIndex = (emojiIndex + 1) % emojis.length;
-  updateButtonText();
-}, 1200);
-
-/* ===============================
-   🌍 Country-based text
-================================= */
-const countryTexts = {
-  "IN": "Cᴏɴᴛᴀᴄᴛ Nᴏᴡ",
-  "US": "Oᴘᴇɴ Sᴜᴘᴘᴏʀᴛ",
-  "GB": "Mᴇssᴀɢᴇ Hᴇʀᴇ",
-  "default": "Oᴘᴇɴ Tᴇʟᴇɢʀᴀᴍ"
-};
-
-let country = "default";
-fetch("https://ipapi.co/country/")
-  .then(r => r.text())
-  .then(c => country = c.trim())
-  .catch(() => country = "default");
-
-/* ===============================
-   🖱 Click Counter (per visitor)
-================================= */
-let clicks = localStorage.getItem("click_count") || 0;
-document.getElementById("counter").innerText = "👀 Views: " + clicks;
-
-document.querySelectorAll(".btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    clicks++;
-    localStorage.setItem("click_count", clicks);
-    document.getElementById("counter").innerText = "👀 Views: " + clicks;
-  });
-});
-
-/* ===============================
-   🧠 Button Text Update
-================================= */
-function updateButtonText() {
-  const text = countryTexts[country] || countryTexts["default"];
-  const emoji = emojis[emojiIndex];
-
-  document.getElementById("btn1").innerText = emoji + " " + text;
-  document.getElementById("btn2").innerText = emoji + " " + text;
-  document.getElementById("btn3").innerText = emoji + " " + text;
-}
-
-updateButtonText();
-</script>
-
-</body>
-</html>    <div class="sub">@FreeLy_Wallet_Support</div>
-
-    <a class="btn" href="https://t.me/FreeLy_Wallet_Support">
-      OPEN TELEGRAM
-    </a>
-  </div>
 
 </body>
 </html>
