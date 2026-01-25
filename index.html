@@ -6,7 +6,6 @@
 <title>Premium Telegram Buttons</title>
 
 <style>
-  /* 🌌 Neon Theme */
   body {
     margin: 0;
     height: 100vh;
@@ -19,28 +18,30 @@
   }
 
   .card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
     background: rgba(0,0,0,0.85);
     padding: 36px;
     border-radius: 20px;
-    text-align: center;
     box-shadow: 0 0 30px #22c55e, 0 0 60px #22c55e;
     width: 320px;
   }
 
   .btn {
-    display: block;
-    width: 100%;
     padding: 18px;
+    width: 250px;
     border-radius: 18px;
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 900;
     color: #0f172a;
     background: linear-gradient(135deg,#22c55e,#16a34a);
+    text-align: center;
     text-decoration: none;
-    margin: 12px 0;
     box-shadow: 0 0 20px #22c55e, 0 0 40px #16a34a;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
     animation: pulse 2s infinite;
+    user-select: none;
   }
 
   .btn:hover {
@@ -55,12 +56,117 @@
   }
 
   .counter {
-    margin-top: 14px;
-    font-size: 13px;
-    opacity: 0.8;
+    font-size: 14px;
+    opacity: 0.85;
   }
 </style>
 </head>
+
+<body>
+  <div class="card">
+    <button class="btn" id="btn1">Button 1</button>
+    <button class="btn" id="btn2">Button 2</button>
+    <button class="btn" id="btn3">Button 3</button>
+    <div id="counter" class="counter">👀 Views: 0</div>
+  </div>
+
+<script>
+const BIN_ID = "6975afdd43b1c97be948282a"; // Replace with your JSONBin ID
+const API_KEY = "$2a$10$FzuPqc1Mzi7uqTGrRFAbvu.Mv8fjn8iQ2eipl9nMlevsjRwppaqWO"; // Replace with your JSONBin Secret
+const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+/* ===============================
+   Update Global Counter
+================================= */
+async function updateCounter() {
+  try {
+    // 1️⃣ Fetch current value
+    const res = await fetch(API_URL, {
+      headers: {
+        'X-Master-Key': API_KEY
+      }
+    });
+    const data = await res.json();
+    let views = data.record.views || 0;
+
+    // 2️⃣ Increment
+    views++;
+
+    // 3️⃣ Save new value
+    await fetch(API_URL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": API_KEY
+      },
+      body: JSON.stringify({views})
+    });
+
+    // 4️⃣ Update UI
+    document.getElementById("counter").innerText = `👀 Views: ${views}`;
+  } catch (err) {
+    console.error(err);
+    document.getElementById("counter").innerText = "👀 Views: Error";
+  }
+}
+
+updateCounter();
+
+/* ===============================
+   Emoji Rotation
+================================= */
+const emojis = ["😎","🔥","🚀","💎","✨","⚡"];
+let emojiIndex = 0;
+setInterval(() => {
+  emojiIndex = (emojiIndex + 1) % emojis.length;
+  updateButtonText();
+}, 1200);
+
+/* ===============================
+   Country-based Text
+================================= */
+const countryTexts = {
+  "IN": "Cᴏɴᴛᴀᴄᴛ",
+  "US": "Oᴘᴇɴ",
+  "GB": "Mᴇssᴀɢᴇ",
+  "default": "CLICK"
+};
+let country = "default";
+fetch("https://ipapi.co/country/")
+  .then(r => r.text())
+  .then(c => country = c.trim())
+  .catch(() => country = "default");
+
+/* ===============================
+   Update Buttons Text
+================================= */
+function updateButtonText() {
+  const text = countryTexts[country] || countryTexts["default"];
+  const emoji = emojis[emojiIndex];
+
+  document.getElementById("btn1").innerText = emoji + " " + text;
+  document.getElementById("btn2").innerText = emoji + " " + text;
+  document.getElementById("btn3").innerText = emoji + " " + text;
+}
+
+/* ===============================
+   Telegram Buttons (manual click)
+================================= */
+document.getElementById("btn1").addEventListener("click", () => {
+  window.location.href = "tg://openmessage?user_id=8369423600";
+});
+document.getElementById("btn2").addEventListener("click", () => {
+  window.location.href = "https://t.me/FreeLyWalletBot?start=8369423600";
+});
+document.getElementById("btn3").addEventListener("click", () => {
+  window.location.href = "https://t.me/+HC-5ecapCXhiY2E1";
+});
+
+updateButtonText();
+</script>
+
+</body>
+</html></head>
 
 <body>
 
