@@ -3,64 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Premium Telegram Buttons</title>
+<title>Contact Now</title>
 
 <style>
-  body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: radial-gradient(circle at top left, #0f0f3f, #000);
-    font-family: 'Arial', sans-serif;
-    color: #fff;
-  }
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:radial-gradient(circle at top left,#0f0f3f,#000);
+  font-family:Arial, sans-serif;
+  color:#fff;
+}
 
-  .card {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-    background: rgba(0,0,0,0.85);
-    padding: 36px;
-    border-radius: 20px;
-    box-shadow: 0 0 30px #22c55e, 0 0 60px #22c55e;
-    width: 320px;
-  }
+.card{
+  background:rgba(0,0,0,0.85);
+  padding:30px;
+  border-radius:22px;
+  box-shadow:0 0 30px #22c55e,0 0 60px #22c55e;
+  width:320px;
+  text-align:center;
+}
 
-  .btn {
-    padding: 18px;
-    width: 250px;
-    border-radius: 18px;
-    font-size: 18px;
-    font-weight: 900;
-    color: #0f172a;
-    background: linear-gradient(135deg,#22c55e,#16a34a);
-    text-align: center;
-    text-decoration: none;
-    box-shadow: 0 0 20px #22c55e, 0 0 40px #16a34a;
-    animation: pulse 2s infinite;
-    user-select: none;
-  }
+.btn{
+  display:block;
+  margin:14px auto;
+  padding:16px;
+  width:100%;
+  border-radius:18px;
+  font-size:18px;
+  font-weight:900;
+  color:#0f172a;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  text-decoration:none;
+  box-shadow:0 0 20px #22c55e,0 0 40px #16a34a;
+  animation:pulse 2s infinite;
+}
 
-  .btn:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 0 40px #22c55e, 0 0 80px #16a34a;
-  }
+.btn:hover{
+  transform:scale(1.03);
+  box-shadow:0 0 40px #22c55e,0 0 80px #16a34a;
+}
 
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 #22c55e; }
-    50% { box-shadow: 0 0 40px #22c55e; }
-    100% { box-shadow: 0 0 0 #22c55e; }
-  }
+@keyframes pulse{
+  0%{box-shadow:0 0 10px #22c55e}
+  50%{box-shadow:0 0 40px #22c55e}
+  100%{box-shadow:0 0 10px #22c55e}
+}
 
-  .counter {
-    font-size: 14px;
-    opacity: 0.85;
-  }
+.counter{
+  margin-top:18px;
+  font-size:14px;
+  opacity:.85;
+}
 </style>
 </head>
+
+<body>
+
+<div class="card">
+
+  <a class="btn" href="tg://openmessage?user_id=8369423600">🔥 Contact Now</a>
+  <a class="btn" href="https://t.me/FreeLyWalletBot?start=8369423600">🔥 Contact Now</a>
+  <a class="btn" href="https://t.me/+HC-5ecapCXhiY2E1">🔥 Contact Now</a>
+
+  <div id="views" class="counter">👀 Views: 0</div>
+
+</div>
+
+<script>
+let views = localStorage.getItem("page_views") || 0;
+views++;
+localStorage.setItem("page_views", views);
+document.getElementById("views").innerText = "👀 Views: " + views;
+</script>
+
+</body>
+</html></head>
 
 <body>
   <div class="card">
