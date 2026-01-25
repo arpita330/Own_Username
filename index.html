@@ -7,12 +7,13 @@
 
 <style>
 body{
-    background:#0b0b0b;
+    background: radial-gradient(circle at top left, #0f0f3f, #000); /* Original background */
     display:flex;
     justify-content:center;
     align-items:center;
     height:100vh;
     font-family: system-ui;
+    margin:0;
 }
 
 .container{
@@ -28,30 +29,32 @@ body{
     border:none;
     cursor:pointer;
     color:#fff;
-    background:#222;
+    background:#22c55e;
     box-shadow:0 0 12px currentColor;
     transition:0.4s;
     position:relative;
     overflow:hidden;
 }
 
+/* Text style */
 .btn span{
-    font-variant: small-caps;
+    font-variant: small-caps; /* Sᴍᴀʟʟ Cᴀᴘs */
     letter-spacing:1px;
     animation: textGlow 2s infinite alternate;
+    text-transform: capitalize; /* First letter of each word capitalized */
 }
 
 @keyframes textGlow{
-    from{ text-shadow:0 0 6px currentColor; }
-    to{ text-shadow:0 0 16px currentColor; }
+    0%{ text-shadow:0 0 6px currentColor; }
+    100%{ text-shadow:0 0 16px currentColor; }
 }
 
+/* Emoji animation */
 .emoji{
     margin-right:8px;
     display:inline-block;
 }
 
-/* Emoji speeds */
 .e1{ animation: emojiFloat 1.2s infinite ease-in-out; }
 .e2{ animation: emojiFloat 1.6s infinite ease-in-out; }
 .e3{ animation: emojiFloat 2s infinite ease-in-out; }
@@ -61,12 +64,19 @@ body{
     50%{ transform:translateY(-6px); }
     100%{ transform:translateY(0); }
 }
+
+.counter{
+    margin-top:18px;
+    font-size:14px;
+    opacity:.85;
+    color:#fff;
+}
 </style>
 </head>
-
 <body>
 
 <div class="container">
+    <!-- Buttons -->
     <button class="btn" id="b1">
         <span><span class="emoji e1">📞</span>Contact Now</span>
     </button>
@@ -78,9 +88,15 @@ body{
     <button class="btn" id="b3">
         <span><span class="emoji e3">📢</span>Join Our Official Channel</span>
     </button>
+
+    <!-- Views counter -->
+    <div id="views" class="counter">👀 Views: …</div>
 </div>
 
 <script>
+/* ============================
+   Glow colors rotation
+============================ */
 const colors = [
     ["#ff4d4d","#4dd2ff","#7dff4d"],
     ["#ff9f1a","#a66cff","#2bff88"],
@@ -103,16 +119,58 @@ function rotateColors(){
 }
 
 rotateColors();
-setInterval(rotateColors, 2000);
+setInterval(rotateColors,2000);
 
-/* Mobile vibration */
+/* ============================
+   Mobile click vibration
+============================ */
 buttons.forEach(btn=>{
     btn.onclick = ()=>{
-        if(navigator.vibrate){
-            navigator.vibrate(20);
-        }
+        if(navigator.vibrate){ navigator.vibrate(20); }
     }
 });
+
+/* ============================
+   Emoji rotation (different speeds)
+============================ */
+const e1=["📞","🔥","⚡","💬","🚀"];
+const e2=["💼","👛","💰","🏦","💎"];
+const e3=["📢","📣","🌐","🔥","🚀"];
+let i1=0,i2=0,i3=0;
+
+setInterval(()=>buttons[0].innerHTML=`<span><span class="emoji e1">${e1[i1++%e1.length]}</span>Contact Now</span>`,1200);
+setInterval(()=>buttons[1].innerHTML=`<span><span class="emoji e2">${e2[i2++%e2.length]}</span>Open Your Own Wallet</span>`,1600);
+setInterval(()=>buttons[2].innerHTML=`<span><span class="emoji e3">${e3[i3++%e3.length]}</span>Join Our Official Channel</span>`,2000);
+
+/* ============================
+   Global views (JSONBin / Firebase placeholder)
+   Replace BIN_ID and API_KEY with your own
+============================ */
+const BIN_ID = "6975afdd43b1c97be948282a";
+const API_KEY = "$2a$10$FzuPqc1Mzi7uqTGrRFAbvu.Mv8fjn8iQ2eipl9nMlevsjRwppaqWO";
+const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+async function updateViews(){
+    try{
+        const r = await fetch(API_URL,{headers:{'X-Master-Key':API_KEY}});
+        const d = await r.json();
+        const v = (d.record.views || 0) + 1;
+
+        await fetch(API_URL,{
+            method:"PUT",
+            headers:{
+                "Content-Type":"application/json",
+                "X-Master-Key":API_KEY
+            },
+            body:JSON.stringify({views:v})
+        });
+
+        document.getElementById("views").innerText = "👀 Views: " + v;
+    }catch{
+        document.getElementById("views").innerText = "👀 Views: Error";
+    }
+}
+updateViews();
 </script>
 
 </body>
