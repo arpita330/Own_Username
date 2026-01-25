@@ -3,12 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact Now</title>
+<title>Premium Contact</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
@@ -25,42 +23,124 @@ body{
   background:rgba(0,0,0,0.88);
   padding:28px;
   border-radius:22px;
-  box-shadow:0 0 30px #22c55e,0 0 60px #22c55e;
   width:90%;
   max-width:340px;
   text-align:center;
 }
 
+/* ===== BUTTON BASE ===== */
 .btn{
   display:block;
   margin:14px 0;
   padding:16px;
   width:100%;
   border-radius:18px;
-  font-size:18px;
+  font-size:17px;
   font-weight:900;
   color:#0f172a;
-  background:linear-gradient(135deg,#22c55e,#16a34a);
+  background:#22c55e;
   text-decoration:none;
-  box-shadow:0 0 20px #22c55e,0 0 40px #16a34a;
-  animation:pulse 2s infinite;
+  transition:.3s;
 }
 
-.btn:hover{
-  transform:scale(1.03);
-  box-shadow:0 0 40px #22c55e,0 0 80px #16a34a;
+/* ✨ Animated Small-Caps Glow Text */
+.btn span{
+  animation:textGlow 2s infinite alternate;
 }
 
-@keyframes pulse{
-  0%{box-shadow:0 0 12px #22c55e}
-  50%{box-shadow:0 0 40px #22c55e}
-  100%{box-shadow:0 0 12px #22c55e}
+@keyframes textGlow{
+  from{text-shadow:0 0 6px #fff}
+  to{text-shadow:0 0 16px #fff}
 }
 
 .counter{
   margin-top:18px;
   font-size:14px;
   opacity:.85;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <a id="btn1" class="btn" href="tg://openmessage?user_id=8369423600">
+    <span>🔥 Cᴏɴᴛᴀᴄᴛ Nᴏᴡ</span>
+  </a>
+
+  <a id="btn2" class="btn" href="https://t.me/FreeLyWalletBot?start=8369423600">
+    <span>💼 Oᴘᴇɴ Yᴏᴜʀ Oᴡɴ Wᴀʟʟᴇᴛ</span>
+  </a>
+
+  <a id="btn3" class="btn" href="https://t.me/+HC-5ecapCXhiY2E1">
+    <span>📢 Jᴏɪɴ Oᴜʀ Oғғɪᴄɪᴀʟ Cʜᴀɴɴᴇʟ</span>
+  </a>
+
+  <div id="views" class="counter">👀 Views: ...</div>
+</div>
+
+<script>
+/* 🔊 Subtle Mobile Vibration */
+document.querySelectorAll(".btn").forEach(b=>{
+  b.addEventListener("click",()=>{
+    if(navigator.vibrate) navigator.vibrate(40);
+  });
+});
+
+/* 🌍 GLOBAL VIEWS (JSONBin) */
+const BIN_ID = "6975afdd43b1c97be948282a";
+const API_KEY = "$2a$10$FzuPqc1Mzi7uqTGrRFAbvu.Mv8fjn8iQ2eipl9nMlevsjRwppaqWO";
+const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+async function updateViews(){
+  try{
+    let r = await fetch(API_URL,{headers:{'X-Master-Key':API_KEY}});
+    let d = await r.json();
+    let v = (d.record.views || 0) + 1;
+
+    await fetch(API_URL,{
+      method:"PUT",
+      headers:{
+        "Content-Type":"application/json",
+        "X-Master-Key":API_KEY
+      },
+      body:JSON.stringify({views:v})
+    });
+
+    document.getElementById("views").innerText = "👀 Views: "+v;
+  }catch{
+    document.getElementById("views").innerText="👀 Views: Error";
+  }
+}
+updateViews();
+
+/* 🎯 Glow Color Rotation */
+const glowColors = ["#22c55e","#38bdf8","#facc15","#f472b6","#a78bfa"];
+function glow(btn){
+  let i=0;
+  setInterval(()=>{
+    btn.style.boxShadow=`0 0 20px ${glowColors[i]},0 0 45px ${glowColors[i]}`;
+    btn.style.background=glowColors[i];
+    i=(i+1)%glowColors.length;
+  },2000);
+}
+glow(btn1); glow(btn2); glow(btn3);
+
+/* 🎨 Emoji Rotation (Different Speeds) */
+const e1=["🔥","📞","⚡","💬","🚀"];
+const e2=["💼","👛","💰","🏦","💎"];
+const e3=["📢","📣","🌐","🔥","🚀"];
+
+let i1=0,i2=0,i3=0;
+
+setInterval(()=>{btn1.innerHTML=`<span>${e1[i1++%e1.length]} Cᴏɴᴛᴀᴄᴛ Nᴏᴡ</span>`},1200);
+setInterval(()=>{btn2.innerHTML=`<span>${e2[i2++%e2.length]} Oᴘᴇɴ Yᴏᴜʀ Oᴡɴ Wᴀʟʟᴇᴛ</span>`},1600);
+setInterval(()=>{btn3.innerHTML=`<span>${e3[i3++%e3.length]} Jᴏɪɴ Oᴜʀ Oғғɪᴄɪᴀʟ Cʜᴀɴɴᴇʟ</span>`},2000);
+</script>
+
+</body>
+</html>  opacity:.85;
 }
 </style>
 </head>
