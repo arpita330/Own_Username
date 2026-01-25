@@ -3,165 +3,116 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Premium Contact</title>
+<title>Animated Buttons</title>
 
 <style>
-*{box-sizing:border-box}
-
 body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:radial-gradient(circle at top left,#0f0f3f,#000);
-  font-family:Arial, sans-serif;
-  color:#fff;
+    background:#0b0b0b;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    font-family: system-ui;
 }
 
-.card{
-  background:rgba(0,0,0,0.88);
-  padding:28px;
-  border-radius:22px;
-  width:90%;
-  max-width:340px;
-  text-align:center;
+.container{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
 }
 
-/* ===== BUTTON BASE ===== */
 .btn{
-  display:block;
-  margin:14px 0;
-  padding:16px;
-  width:100%;
-  border-radius:18px;
-  font-size:17px;
-  font-weight:900;
-  color:#0f172a;
-  background:#22c55e;
-  text-decoration:none;
-  transition:.3s;
+    padding:14px 22px;
+    font-size:18px;
+    border-radius:14px;
+    border:none;
+    cursor:pointer;
+    color:#fff;
+    background:#222;
+    box-shadow:0 0 12px currentColor;
+    transition:0.4s;
+    position:relative;
+    overflow:hidden;
 }
 
-/* ✨ Animated Small-Caps Glow Text */
 .btn span{
-  animation:textGlow 2s infinite alternate;
+    font-variant: small-caps;
+    letter-spacing:1px;
+    animation: textGlow 2s infinite alternate;
 }
 
 @keyframes textGlow{
-  from{text-shadow:0 0 6px #fff}
-  to{text-shadow:0 0 16px #fff}
+    from{ text-shadow:0 0 6px currentColor; }
+    to{ text-shadow:0 0 16px currentColor; }
 }
 
-.counter{
-  margin-top:18px;
-  font-size:14px;
-  opacity:.85;
+.emoji{
+    margin-right:8px;
+    display:inline-block;
+}
+
+/* Emoji speeds */
+.e1{ animation: emojiFloat 1.2s infinite ease-in-out; }
+.e2{ animation: emojiFloat 1.6s infinite ease-in-out; }
+.e3{ animation: emojiFloat 2s infinite ease-in-out; }
+
+@keyframes emojiFloat{
+    0%{ transform:translateY(0); }
+    50%{ transform:translateY(-6px); }
+    100%{ transform:translateY(0); }
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="container">
+    <button class="btn" id="b1">
+        <span><span class="emoji e1">📞</span>Contact Now</span>
+    </button>
 
-  <a id="btn1" class="btn" href="tg://openmessage?user_id=8369423600">
-    <span>🔥 Cᴏɴᴛᴀᴄᴛ Nᴏᴡ</span>
-  </a>
+    <button class="btn" id="b2">
+        <span><span class="emoji e2">💼</span>Open Your Own Wallet</span>
+    </button>
 
-  <a id="btn2" class="btn" href="https://t.me/FreeLyWalletBot?start=8369423600">
-    <span>💼 Oᴘᴇɴ Yᴏᴜʀ Oᴡɴ Wᴀʟʟᴇᴛ</span>
-  </a>
-
-  <a id="btn3" class="btn" href="https://t.me/+HC-5ecapCXhiY2E1">
-    <span>📢 Jᴏɪɴ Oᴜʀ Oғғɪᴄɪᴀʟ Cʜᴀɴɴᴇʟ</span>
-  </a>
-
-  <div id="views" class="counter">👀 Views: ...</div>
+    <button class="btn" id="b3">
+        <span><span class="emoji e3">📢</span>Join Our Official Channel</span>
+    </button>
 </div>
 
 <script>
-/* 🔊 Subtle Mobile Vibration */
-document.querySelectorAll(".btn").forEach(b=>{
-  b.addEventListener("click",()=>{
-    if(navigator.vibrate) navigator.vibrate(40);
-  });
-});
+const colors = [
+    ["#ff4d4d","#4dd2ff","#7dff4d"],
+    ["#ff9f1a","#a66cff","#2bff88"],
+    ["#ff66cc","#00ffaa","#ffcc00"]
+];
 
-/* 🌍 GLOBAL VIEWS (JSONBin) */
-const BIN_ID = "6975afdd43b1c97be948282a";
-const API_KEY = "$2a$10$FzuPqc1Mzi7uqTGrRFAbvu.Mv8fjn8iQ2eipl9nMlevsjRwppaqWO";
-const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+let index = 0;
+const buttons = [
+    document.getElementById("b1"),
+    document.getElementById("b2"),
+    document.getElementById("b3")
+];
 
-async function updateViews(){
-  try{
-    let r = await fetch(API_URL,{headers:{'X-Master-Key':API_KEY}});
-    let d = await r.json();
-    let v = (d.record.views || 0) + 1;
-
-    await fetch(API_URL,{
-      method:"PUT",
-      headers:{
-        "Content-Type":"application/json",
-        "X-Master-Key":API_KEY
-      },
-      body:JSON.stringify({views:v})
+function rotateColors(){
+    buttons.forEach((btn,i)=>{
+        btn.style.color = colors[index][i];
+        btn.style.boxShadow = `0 0 18px ${colors[index][i]}`;
     });
-
-    document.getElementById("views").innerText = "👀 Views: "+v;
-  }catch{
-    document.getElementById("views").innerText="👀 Views: Error";
-  }
+    index = (index + 1) % colors.length;
 }
-updateViews();
 
-/* 🎯 Glow Color Rotation */
-const glowColors = ["#22c55e","#38bdf8","#facc15","#f472b6","#a78bfa"];
-function glow(btn){
-  let i=0;
-  setInterval(()=>{
-    btn.style.boxShadow=`0 0 20px ${glowColors[i]},0 0 45px ${glowColors[i]}`;
-    btn.style.background=glowColors[i];
-    i=(i+1)%glowColors.length;
-  },2000);
-}
-glow(btn1); glow(btn2); glow(btn3);
+rotateColors();
+setInterval(rotateColors, 2000);
 
-/* 🎨 Emoji Rotation (Different Speeds) */
-const e1=["🔥","📞","⚡","💬","🚀"];
-const e2=["💼","👛","💰","🏦","💎"];
-const e3=["📢","📣","🌐","🔥","🚀"];
-
-let i1=0,i2=0,i3=0;
-
-setInterval(()=>{btn1.innerHTML=`<span>${e1[i1++%e1.length]} Cᴏɴᴛᴀᴄᴛ Nᴏᴡ</span>`},1200);
-setInterval(()=>{btn2.innerHTML=`<span>${e2[i2++%e2.length]} Oᴘᴇɴ Yᴏᴜʀ Oᴡɴ Wᴀʟʟᴇᴛ</span>`},1600);
-setInterval(()=>{btn3.innerHTML=`<span>${e3[i3++%e3.length]} Jᴏɪɴ Oᴜʀ Oғғɪᴄɪᴀʟ Cʜᴀɴɴᴇʟ</span>`},2000);
-</script>
-
-</body>
-</html>  opacity:.85;
-}
-</style>
-</head>
-
-<body>
-
-<div class="card">
-
-  <a class="btn" href="tg://openmessage?user_id=8369423600">🔥 Contact Now</a>
-  <a class="btn" href="https://t.me/FreeLyWalletBot?start=8369423600">🔥 Contact Now</a>
-  <a class="btn" href="https://t.me/+HC-5ecapCXhiY2E1">🔥 Contact Now</a>
-
-  <div id="views" class="counter">👀 Views: 0</div>
-
-</div>
-
-<script>
-let views = localStorage.getItem("page_views") || 0;
-views++;
-localStorage.setItem("page_views", views);
-document.getElementById("views").innerText = "👀 Views: " + views;
+/* Mobile vibration */
+buttons.forEach(btn=>{
+    btn.onclick = ()=>{
+        if(navigator.vibrate){
+            navigator.vibrate(20);
+        }
+    }
+});
 </script>
 
 </body>
