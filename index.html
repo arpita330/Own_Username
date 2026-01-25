@@ -1,66 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Telegram Profile</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Telegram Buttons</title>
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #0f172a;
-      font-family: Arial, sans-serif;
-      color: #e5e7eb;
-    }
+<style>
+  /* 🌌 Neon Theme */
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top left, #0f0f3f, #000);
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+  }
 
-    .card {
-      background: #020617;
-      padding: 30px;
-      border-radius: 18px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,.5);
-      max-width: 320px;
-      width: 100%;
-    }
+  .card {
+    background: rgba(0,0,0,0.85);
+    padding: 36px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 30px #22c55e, 0 0 60px #22c55e;
+    width: 320px;
+  }
 
-    .title {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    border-radius: 18px;
+    font-size: 17px;
+    font-weight: 900;
+    color: #0f172a;
+    background: linear-gradient(135deg,#22c55e,#16a34a);
+    text-decoration: none;
+    margin: 12px 0;
+    box-shadow: 0 0 20px #22c55e, 0 0 40px #16a34a;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    animation: pulse 2s infinite;
+  }
 
-    .sub {
-      font-size: 14px;
-      color: #94a3b8;
-      margin-bottom: 25px;
-    }
+  .btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 0 40px #22c55e, 0 0 80px #16a34a;
+  }
 
-    .btn {
-      display: inline-block;
-      padding: 14px 22px;
-      border-radius: 14px;
-      background: linear-gradient(135deg,#22c55e,#16a34a);
-      color: #020617;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 16px;
-    }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 #22c55e; }
+    50% { box-shadow: 0 0 40px #22c55e; }
+    100% { box-shadow: 0 0 0 #22c55e; }
+  }
 
-    .btn:active {
-      transform: scale(0.97);
-    }
-  </style>
+  .counter {
+    margin-top: 14px;
+    font-size: 13px;
+    opacity: 0.8;
+  }
+</style>
 </head>
 
 <body>
 
-  <div class="card">
-    <div class="title">Telegram Username</div>
-    <div class="sub">@FreeLy_Wallet_Support</div>
+<div class="card">
+  <a id="btn1" class="btn" href="tg://openmessage?user_id=8369423600">Button 1</a>
+  <a id="btn2" class="btn" href="https://t.me/FreeLyWalletBot?start=8369423600">Button 2</a>
+  <a id="btn3" class="btn" href="https://t.me/+HC-5ecapCXhiY2E1">Button 3</a>
+  <div id="counter" class="counter">👀 Views: 0</div>
+</div>
+
+<script>
+/* ===============================
+   🎭 Emoji Rotation
+================================= */
+const emojis = ["😎","🔥","🚀","💎","✨","⚡"];
+let emojiIndex = 0;
+setInterval(() => {
+  emojiIndex = (emojiIndex + 1) % emojis.length;
+  updateButtonText();
+}, 1200);
+
+/* ===============================
+   🌍 Country-based text
+================================= */
+const countryTexts = {
+  "IN": "Cᴏɴᴛᴀᴄᴛ Nᴏᴡ",
+  "US": "Oᴘᴇɴ Sᴜᴘᴘᴏʀᴛ",
+  "GB": "Mᴇssᴀɢᴇ Hᴇʀᴇ",
+  "default": "Oᴘᴇɴ Tᴇʟᴇɢʀᴀᴍ"
+};
+
+let country = "default";
+fetch("https://ipapi.co/country/")
+  .then(r => r.text())
+  .then(c => country = c.trim())
+  .catch(() => country = "default");
+
+/* ===============================
+   🖱 Click Counter (per visitor)
+================================= */
+let clicks = localStorage.getItem("click_count") || 0;
+document.getElementById("counter").innerText = "👀 Views: " + clicks;
+
+document.querySelectorAll(".btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    clicks++;
+    localStorage.setItem("click_count", clicks);
+    document.getElementById("counter").innerText = "👀 Views: " + clicks;
+  });
+});
+
+/* ===============================
+   🧠 Button Text Update
+================================= */
+function updateButtonText() {
+  const text = countryTexts[country] || countryTexts["default"];
+  const emoji = emojis[emojiIndex];
+
+  document.getElementById("btn1").innerText = emoji + " " + text;
+  document.getElementById("btn2").innerText = emoji + " " + text;
+  document.getElementById("btn3").innerText = emoji + " " + text;
+}
+
+updateButtonText();
+</script>
+
+</body>
+</html>    <div class="sub">@FreeLy_Wallet_Support</div>
 
     <a class="btn" href="https://t.me/FreeLy_Wallet_Support">
       OPEN TELEGRAM
