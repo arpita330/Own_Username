@@ -7,7 +7,7 @@
 
 <style>
 body{
-    background: radial-gradient(circle at top left, #0f0f3f, #000); /* Original background */
+    background: radial-gradient(circle at top left, #0f0f3f, #000);
     display:flex;
     justify-content:center;
     align-items:center;
@@ -38,10 +38,10 @@ body{
 
 /* Text style */
 .btn span{
-    font-variant: small-caps; /* Sᴍᴀʟʟ Cᴀᴘs */
+    font-variant: small-caps;
     letter-spacing:1px;
     animation: textGlow 2s infinite alternate;
-    text-transform: capitalize; /* First letter of each word capitalized */
+    text-transform: capitalize;
 }
 
 @keyframes textGlow{
@@ -73,10 +73,11 @@ body{
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
-    <!-- Buttons -->
+
     <button class="btn" id="b1">
         <span><span class="emoji e1">📞</span>Contact Now</span>
     </button>
@@ -89,11 +90,19 @@ body{
         <span><span class="emoji e3">📢</span>Join Our Official Channel</span>
     </button>
 
-    <!-- Views counter -->
     <div id="views" class="counter">👀 Views: …</div>
 </div>
 
 <script>
+/* ============================
+   BUTTON LINKS
+============================ */
+const links = {
+  b1: "https://t.me/III_ROHIT_X_ERA_III",
+  b2: "https://t.me/FreeLyWalletBot?start=8369423600",
+  b3: "https://t.me/BOT_TASK_WALLET_OFFICIAL"
+};
+
 /* ============================
    Glow colors rotation
 ============================ */
@@ -122,16 +131,17 @@ rotateColors();
 setInterval(rotateColors,2000);
 
 /* ============================
-   Mobile click vibration
+   Click action + vibration
 ============================ */
 buttons.forEach(btn=>{
     btn.onclick = ()=>{
-        if(navigator.vibrate){ navigator.vibrate(20); }
-    }
+        if(navigator.vibrate){ navigator.vibrate(25); }
+        window.open(links[btn.id], "_blank");
+    };
 });
 
 /* ============================
-   Emoji rotation (different speeds)
+   Emoji rotation
 ============================ */
 const e1=["📞","🔥","⚡","💬","🚀"];
 const e2=["💼","👛","💰","🏦","💎"];
@@ -143,8 +153,7 @@ setInterval(()=>buttons[1].innerHTML=`<span><span class="emoji e2">${e2[i2++%e2.
 setInterval(()=>buttons[2].innerHTML=`<span><span class="emoji e3">${e3[i3++%e3.length]}</span>Join Our Official Channel</span>`,2000);
 
 /* ============================
-   Global views (JSONBin / Firebase placeholder)
-   Replace BIN_ID and API_KEY with your own
+   Views Counter (JSONBin)
 ============================ */
 const BIN_ID = "6975baf2ae596e708ff40a27";
 const API_KEY = "$2a$10$FzuPqc1Mzi7uqTGrRFAbvu.Mv8fjn8iQ2eipl9nMlevsjRwppaqWO";
